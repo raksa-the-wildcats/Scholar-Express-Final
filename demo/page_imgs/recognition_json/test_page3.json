@@ -1,0 +1,124 @@
+[
+  {
+    "label": "fig",
+    "text": "![Figure](figures/test_page3_figure_000.png)",
+    "figure_path": "figures/test_page3_figure_000.png",
+    "bbox": [
+      331,
+      134,
+      984,
+      489
+    ],
+    "reading_order": 0
+  },
+  {
+    "label": "cap",
+    "bbox": [
+      198,
+      554,
+      1065,
+      603
+    ],
+    "text": "Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several\nattention layers running in parallel.",
+    "reading_order": 1
+  },
+  {
+    "label": "para",
+    "bbox": [
+      198,
+      652,
+      1065,
+      701
+    ],
+    "text": "query with all keys, divide each by $\\sqrt{d_k}$ , and apply a softmax function to obtain the weights on the\nvalues.",
+    "reading_order": 2
+  },
+  {
+    "label": "para",
+    "bbox": [
+      198,
+      715,
+      1065,
+      881
+    ],
+    "text": "In practice, we compute the attention function on a set of queries simultaneously, packed together\ninto a matrix $Q$ . The keys and values are also packed together into matrices $K$ and $V$ . We compute\nthe matrix of outputs as:\n\\[\n    \\text{Attention}(Q, K, V) = \\mathrm{softmax}(\\frac{QK^T}{\\sqrt{d_k}})V\n\\]",
+    "reading_order": 3
+  },
+  {
+    "label": "para",
+    "bbox": [
+      198,
+      913,
+      1068,
+      1060
+    ],
+    "text": "The two most commonly used attention functions are additive attention [2] , and dot-product (multi-\nplicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor\nof $\\frac{1}{\\sqrt{d_k}}$ . Additive attention computes the compatibility function using a feed-forward network with\na single hidden layer. While the two are similar in theoretical complexity, dot-product attention is\nmuch faster and more space-efficient in practice, since it can be implemented using highly optimized\nmatrix multiplication code.",
+    "reading_order": 4
+  },
+  {
+    "label": "para",
+    "bbox": [
+      198,
+      1074,
+      1066,
+      1175
+    ],
+    "text": "While for small values of $d_k$ the two mechanisms perform similarly, additive attention outperforms\ndot product attention without scaling for larger values of $d_k$ [ 3 ] . We suspect that for large values of\n$d_k$ , the dot products grow large in magnitude, pushing the softmax function into regions where it has\nextremely small gradients 4 To counteract this effect, we scale the dot products by $\\frac{1}{\\sqrt{d_k}}$ .",
+    "reading_order": 5
+  },
+  {
+    "label": "sub_sub_sec",
+    "bbox": [
+      198,
+      1207,
+      467,
+      1225
+    ],
+    "text": "3.2.2 Multi-Head Attention",
+    "reading_order": 6
+  },
+  {
+    "label": "para",
+    "bbox": [
+      198,
+      1253,
+      1067,
+      1395
+    ],
+    "text": "Instead of performing a single attention function with $d_{\\text{model}}$ -dimensional keys, values and queries,\nwe found it beneficial to linearly project the queries, keys and values $h$ times with different, learned\nlinear projections to $d_k$ , $d_k$ and $d_v$ dimensions, respectively. On each of these projected versions of\nqueries, keys and values we then perform the attention function in parallel, yielding $d_v$ -dimensional\noutput values. These are concatenated and once again projected, resulting in the final values, as\ndepicted in Figure 2 .",
+    "reading_order": 7
+  },
+  {
+    "label": "para",
+    "bbox": [
+      198,
+      1403,
+      1065,
+      1453
+    ],
+    "text": "Multi­head attention allows the model to jointly attend to information from different representation\nsubspaces at different positions. With a single attention head, averaging inhibits this.",
+    "reading_order": 8
+  },
+  {
+    "label": "fnote",
+    "bbox": [
+      198,
+      1485,
+      1065,
+      1535
+    ],
+    "text": "${ }^{4}$ To illustrate why the dot products get large, assume that the components of $q$ and $k$ are independent random\nvariables with mean 0 and variance 1 . Then their dot product, $q \\cdot k=\\sum_{i=1}^{d_{k}} q_{i} k_{i}$, has mean 0 and variance $d_{k}$.",
+    "reading_order": 9
+  },
+  {
+    "label": "foot",
+    "bbox": [
+      625,
+      1578,
+      641,
+      1599
+    ],
+    "text": "4",
+    "reading_order": 10
+  }
+]

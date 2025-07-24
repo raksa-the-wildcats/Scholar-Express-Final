@@ -1,0 +1,25 @@
+# Core dependencies
+gradio
+numpy
+pillow
+opencv-python
+
+# AI/ML dependencies
+torch
+torchvision
+transformers
+
+# PDF processing
+PyMuPDF
+
+# Markdown processing
+markdown
+
+# RAG dependencies
+sentence-transformers
+scikit-learn
+
+# Google Gemini API (minimum version for Gemma 3n support)
+google-generativeai
+
+accelerate

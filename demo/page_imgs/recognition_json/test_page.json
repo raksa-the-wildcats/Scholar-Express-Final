@@ -1,0 +1,47 @@
+[
+  {
+    "label": "header",
+    "bbox": [
+      291,
+      90,
+      675,
+      120
+    ],
+    "text": "Scaled Dot-Product Attention",
+    "reading_order": 0
+  },
+  {
+    "label": "fig",
+    "text": "![Figure](figures/test_page_figure_001.png)",
+    "figure_path": "figures/test_page_figure_001.png",
+    "bbox": [
+      1274,
+      105,
+      1536,
+      627
+    ],
+    "reading_order": 1
+  },
+  {
+    "label": "cap",
+    "bbox": [
+      168,
+      719,
+      1413,
+      789
+    ],
+    "text": "Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several\nattention layers running in parallel.",
+    "reading_order": 2
+  },
+  {
+    "label": "para",
+    "bbox": [
+      168,
+      858,
+      1413,
+      934
+    ],
+    "text": "query with all keys, divide each by $\\sqrt{d_{k}}$, and apply a softmax function to obtain the weights on the\nvalues.",
+    "reading_order": 3
+  }
+]
