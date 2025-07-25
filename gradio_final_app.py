@@ -1,8 +1,3 @@
-"""
-DOLPHIN PDF Document AI - Final Version
-Optimized for HuggingFace Spaces NVIDIA T4 Small deployment
-"""
-
 import gradio as gr
 import json
 import markdown

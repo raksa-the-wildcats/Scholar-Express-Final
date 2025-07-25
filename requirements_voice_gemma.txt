@@ -1,7 +1,4 @@
-# Requirements for DOLPHIN PDF AI - Local Gemma 3n Version with Voice Chat
-# Optimized for powerful GPU deployment with local models and voice functionality
-
-# Core PyTorch dependencies (updated versions from voice_chat)
+# Core PyTorch dependencies 
 torch==2.3.1
 torchvision==0.18.1
 torchaudio==2.3.1
@@ -63,7 +60,7 @@ fire
 # Optional but recommended for better performance
 # flash-attn>=2.0.0; platform_system != "Darwin"
 # xformers>=0.0.22; platform_system != "Darwin"
-# PyAudio==0.2.14  # Commented out as it can cause installation issues
+# PyAudio==0.2.14 
 
 # Development and debugging
 ipython>=8.0.0

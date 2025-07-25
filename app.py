@@ -1,9 +1,3 @@
-"""
-DOLPHIN PDF Document AI - Local Gemma 3n Version
-Optimized for powerful GPU deployment with local models
-Features: AI-generated alt text for accessibility using local Gemma 3n
-"""
-
 import gradio as gr
 import json
 import markdown
@@ -51,14 +45,18 @@ try:
 except ImportError:
     pass
 
-# Warm up voice model if available
-if VOICE_DEPENDENCIES_AVAILABLE and voice_model:
+# Initialize voice model early to avoid NameError
+voice_model = None
+if VOICE_DEPENDENCIES_AVAILABLE:
     try:
+        print("Loading voice model...")
+        voice_model = Gemma3nInference(device='cuda' if torch.cuda.is_available() else 'cpu')
         print("Warming up voice model...")
         voice_model.warm_up()
-        print("✅ Voice model warmed up successfully")
+        print("✅ Voice model loaded and warmed up successfully")
     except Exception as e:
-        print(f"⚠️ Voice model warm-up failed: {e}")
+        print(f"⚠️ Voice model initialization failed: {e}")
+        voice_model = None
 
 
 class DOLPHIN:
@@ -520,16 +518,7 @@ OUT_RATE = 24000
 OUT_SAMPLE_WIDTH = 2
 OUT_CHUNK = 20 * 4096
 
-# Initialize voice inference model if available
-voice_model = None
-if VOICE_DEPENDENCIES_AVAILABLE:
-    try:
-        print("Loading voice model for Talk with Gemma...")
-        voice_model = Gemma3nInference(device='cuda' if torch.cuda.is_available() else 'cpu')
-        print("✅ Voice model loaded successfully")
-    except Exception as e:
-        print(f"❌ Error loading voice model: {e}")
-        VOICE_DEPENDENCIES_AVAILABLE = False
+# Voice model already initialized earlier in the file
 
 @dataclass
 class VoiceAppState:
@@ -643,8 +632,8 @@ def generate_voice_response(state: VoiceAppState):
                 audio_array = audio_array.reshape((-1, 2))
             
             # Update conversation history
-            state.conversation.append({"role": "user", "content": {"path": temp_audio_path, "mime_type": "audio/wav"}})
-            state.conversation.append({"role": "assistant", "content": {"text": text_response}})
+            state.conversation.append({"role": "user", "content": f"[Audio message]"})
+            state.conversation.append({"role": "assistant", "content": text_response})
             
             return (audio_segment.frame_rate, audio_array), VoiceAppState(conversation=state.conversation)
             
@@ -697,7 +686,7 @@ def create_embeddings(chunks):
 def retrieve_relevant_chunks(question, chunks, embeddings, top_k=3):
     """Retrieve most relevant chunks for a question"""
     if embedding_model is None or embeddings is None:
-        return chunks[:3]  # Fallback to first 3 chunks
+        return chunks[:3] =
     
     try:
         question_embedding = embedding_model.encode([question], show_progress_bar=False)
@@ -892,6 +881,7 @@ with gr.Blocks(
             chatbot = gr.Chatbot(
                 value=[],
                 height=500,
+                type='messages',
                 elem_classes="chatbot-container",
                 placeholder="Your conversation will appear here once you process a document..."
             )

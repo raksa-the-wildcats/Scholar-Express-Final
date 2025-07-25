@@ -1,9 +1,3 @@
-"""
-DOLPHIN PDF Document AI - Local Gemma 3n Version
-Optimized for powerful GPU deployment with local models
-Features: AI-generated alt text for accessibility using local Gemma 3n
-"""
-
 import gradio as gr
 import json
 import markdown

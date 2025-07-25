@@ -1,7 +1,3 @@
-"""
-Gradio interface for DOLPHIN model
-"""
-
 import gradio as gr
 import json
 import markdown

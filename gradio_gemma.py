@@ -1,8 +1,3 @@
-"""
-Standalone RAG Chatbot with Gemma 3n
-A simple PDF chatbot using Retrieval-Augmented Generation
-"""
-
 import gradio as gr
 import torch
 import os

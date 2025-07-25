@@ -1,6 +1,3 @@
-# Requirements for HuggingFace Spaces deployment
-# Optimized for NVIDIA T4 GPU environment
-
 # Core dependencies
 torch>=2.1.0
 torchvision>=0.16.0

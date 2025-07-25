@@ -1,8 +1,3 @@
-"""
-Standalone RAG Chatbot with Gemini API
-A simple PDF chatbot using Retrieval-Augmented Generation with Google's Gemini API
-"""
-
 import gradio as gr
 import os
 import numpy as np

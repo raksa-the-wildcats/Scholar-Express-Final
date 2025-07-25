@@ -1,8 +1,3 @@
-"""
-PDF Document Processing Gradio App for HuggingFace Spaces
-Built on DOLPHIN model for document parsing and analysis
-"""
-
 import gradio as gr
 import json
 import markdown
