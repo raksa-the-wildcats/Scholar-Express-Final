@@ -249,8 +249,8 @@ Provide a descriptive alt text in 1-2 sentences that is informative but not over
                 **input_ids,
                 max_new_tokens=1024,
                 disable_compile=True,
-                do_sample=True,
-                temperature=0.7
+                do_sample=False,
+                pad_token_id=self.processor.tokenizer.pad_token_id
             )
             
             text = self.processor.batch_decode(
@@ -686,7 +686,7 @@ def create_embeddings(chunks):
 def retrieve_relevant_chunks(question, chunks, embeddings, top_k=3):
     """Retrieve most relevant chunks for a question"""
     if embedding_model is None or embeddings is None:
-        return chunks[:3] =
+        return chunks[:3]  # Fallback to first 3 chunks
     
     try:
         question_embedding = embedding_model.encode([question], show_progress_bar=False)
@@ -723,6 +723,11 @@ def process_uploaded_pdf(pdf_file, progress=gr.Progress()):
             print(f"Created {len(document_chunks)} chunks")
             
             show_results_tab = True
+            
+            # Clear GPU cache after PDF processing to free memory for voice model
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            
             progress(1.0, desc="PDF processed successfully!")
             return "✅ PDF processed successfully! Chatbot is ready in the Chat tab.", gr.Tabs(visible=True)
         else:
@@ -975,7 +980,7 @@ with gr.Blocks(
             return history
         
         if not processed_markdown:
-            return history + [[message, "❌ Please process a PDF document first before asking questions."]]
+            return history + [{"role": "user", "content": message}, {"role": "assistant", "content": "❌ Please process a PDF document first before asking questions."}]
         
         try:
             # Use RAG to get relevant chunks from markdown
@@ -1003,14 +1008,14 @@ Please provide a clear and helpful answer based on the context provided."""
             
             # Generate response using local Gemma 3n
             response_text = gemma_model.chat(prompt)
-            return history + [[message, response_text]]
+            return history + [{"role": "user", "content": message}, {"role": "assistant", "content": response_text}]
             
         except Exception as e:
             error_msg = f"❌ Error generating response: {str(e)}"
             print(f"Full error: {e}")
             import traceback
             traceback.print_exc()
-            return history + [[message, error_msg]]
+            return history + [{"role": "user", "content": message}, {"role": "assistant", "content": error_msg}]
     
     send_btn.click(
         fn=chatbot_response,
